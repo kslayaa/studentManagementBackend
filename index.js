@@ -1,30 +1,33 @@
 const express = require("express")
+const path = require("path")
 const jwt = require("jsonwebtoken")
+const {students} = require("./students.json")
 const app = express()
 
-let students=[
-    {
-        "id":"1",
-        "name":"shruthilaya",
-        "branch":"CSE",
-        "section":"E"
-    },
-    {
-        "id":"2",
-        "name":"shruthi",
-        "branch":"CSE",
-        "section":"E"
-    },
-    {
-        "id":"3",
-        "name":"laya",
-        "branch":"CSE",
-        "section":"E"
-    }
-]
+
+// let students=[
+//     {
+//         "id":"1",
+//         "name":"shruthilaya",
+//         "branch":"CSE",
+//         "section":"E"
+//     },
+//     {
+//         "id":"2",
+//         "name":"shruthi",
+//         "branch":"CSE",
+//         "section":"E"
+//     },
+//     {
+//         "id":"3",
+//         "name":"laya",
+//         "branch":"CSE",
+//         "section":"E"
+//     }
+// ]
 
 app.use(express.json())
-
+app.use(express.static(path.join(__dirname,"public")))
 
 app.get('/',(req,res)=>{
     res.status(200).send("Student Management System")
@@ -108,6 +111,10 @@ function auth(req,res,next){
     req.token=token
     next();
 }
+
+app.get("/index",(req,res)=>{
+    res.status(200).sendFile(__dirname+"/index.html")
+})
 
 app.listen(3000,()=>{
     console.log("port 3000")
